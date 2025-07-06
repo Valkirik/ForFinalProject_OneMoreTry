@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import \
     gettext_lazy as _  # it let us translate the field into different anguages
+from .managers import CustomUserManager
 
 
 class DataTimeMixin:
@@ -29,19 +30,20 @@ class User(AbstractBaseUser, PermissionsMixin, DataTimeMixin):
         ),
     )
 
-    """objects = CustomUserManager()"""  # to write a class CustomUserManager
+    objects = CustomUserManager()  # to write a class CustomUserManager
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["first name", "last name"]
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
 
 
-class Student(models.Model, DataTimeMixin):
+"""class Student(models.Model, DataTimeMixin):
     pass
 
 
 class Teacher(models.Model, DataTimeMixin):
     pass
+"""
