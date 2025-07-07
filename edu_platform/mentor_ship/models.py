@@ -63,5 +63,15 @@ class Teacher(models.Model, DataTimeMixin):
         verbose_name_plural = _("teachers")
 
 
-"""class Student(models.Model, DataTimeMixin):
-    pass"""
+class Student(models.Model, DataTimeMixin):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.DecimalField(
+        max_digits=4, decimal_places=2
+    )  # it is like float but it might not be negative
+
+    def __str__(self):
+        return f"{self.pk} - user_id: {self.user} - rating: {self.rating}"
+
+    class Meta:
+        verbose_name = "student"
+        verbose_name_plural = "students"
