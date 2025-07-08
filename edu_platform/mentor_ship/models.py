@@ -3,13 +3,9 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import \
     gettext_lazy as _  # it let us translate the field into different anguages
+from mentor_ship.mixins import DataTimeMixin
 
 from .managers import CustomUserManager
-
-
-class DataTimeMixin:
-    data_created = models.DateTimeField(auto_now=True)
-    data_updated = models.DateTimeField(auto_now=True)
 
 
 class User(AbstractBaseUser, PermissionsMixin, DataTimeMixin):
@@ -59,8 +55,8 @@ class Teacher(models.Model, DataTimeMixin):
         return f"{self.pk} - user_id: {self.user}"
 
     class Meta:
-        verbose_name = _("teacher")
-        verbose_name_plural = _("teachers")
+        verbose_name = "teacher"
+        verbose_name_plural = "teachers"
 
 
 class Student(models.Model, DataTimeMixin):
@@ -79,9 +75,7 @@ class Student(models.Model, DataTimeMixin):
 
 class Group(models.Model, DataTimeMixin):
     name_of_the_group = models.CharField(max_length=100, blank=True)
-    student = models.ManyToManyField(
-        Student, blank=True
-    )
+    student = models.ManyToManyField(Student, blank=True)
     teacher = models.ForeignKey(
         Teacher, on_delete=models.SET_NULL, null=True, blank=True
     )
