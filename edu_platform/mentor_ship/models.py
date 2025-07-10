@@ -3,13 +3,9 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import \
     gettext_lazy as _  # it let us translate the field into different anguages
+from mentor_ship.mixins import DataTimeMixin
 
 from .managers import CustomUserManager
-
-
-class DataTimeMixin:
-    data_created = models.DateTimeField(auto_now=True)
-    data_updated = models.DateTimeField(auto_now=True)
 
 
 class User(AbstractBaseUser, PermissionsMixin, DataTimeMixin):
@@ -59,9 +55,39 @@ class Teacher(models.Model, DataTimeMixin):
         return f"{self.pk} - user_id: {self.user}"
 
     class Meta:
-        verbose_name = _("teacher")
-        verbose_name_plural = _("teachers")
+        verbose_name = "teacher"
+        verbose_name_plural = "teachers"
 
 
-"""class Student(models.Model, DataTimeMixin):
-    pass"""
+class Student(models.Model, DataTimeMixin):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.DecimalField(
+        max_digits=4, decimal_places=2
+    )  # it is like float but it might not be negative
+
+    def __str__(self):
+        return f"{self.pk} - user_id: {self.user} - rating: {self.rating}"
+
+    class Meta:
+        verbose_name = "student"
+        verbose_name_plural = "students"
+
+
+class Group(models.Model, DataTimeMixin):
+    name_of_the_group = models.CharField(max_length=100, blank=True)
+    student = models.ManyToManyField(Student, blank=True)
+    teacher = models.ForeignKey(
+        Teacher, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    course = models.ForeignKey(
+        "testing_sistem.Course", on_delete=models.SET_NULL, null=True, blank=True
+    )  # we can add connection with the model that is not exist yet \
+
+    # with "name_of_the_application.Name_of_the_model", just in order \
+    # we'll be able to make migrations
+    def __str__(self):
+        return f"{self.pk} - {self.name_of_the_group}"
+
+    class Meta:
+        verbose_name = "group"
+        verbose_name_plural = "groups"
