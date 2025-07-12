@@ -2,10 +2,6 @@ from django.db import models
 from mentor_ship.models import DataTimeMixin, Teacher, Specialisation
 
 
-class Image(models.Model):
-    image = models.ImageField(null=True, blank=True)
-
-
 class Course(models.Model, DataTimeMixin):
     title = models.CharField(max_length=100)
     teacher = models.ForeignKey(
