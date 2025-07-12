@@ -37,5 +37,15 @@ class Topic(models.Model, DataTimeMixin):
         verbose_name_plural = "topics"
 
 
-class Article:
-    pass
+class Article(models.Model, DataTimeMixin):
+    title = models.CharField(max_length=100)
+    topic_id = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
+    content = models.FileField(null=True, blank=True)
+    author = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.pk} - {self.title}"
+
+    class Meta:
+        verbose_name = "article"
+        verbose_name_plural = "articles"
