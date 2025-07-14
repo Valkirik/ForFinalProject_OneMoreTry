@@ -40,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin, DataTimeMixin):
 class Specialisation(models.Model, DataTimeMixin):
     name = models.CharField(max_length=100)
 
-    def str(self):
+    def __str__(self):
         return f"{self.pk} - {self.name}"
 
 
@@ -51,7 +51,7 @@ class Teacher(models.Model, DataTimeMixin):
         Specialisation, on_delete=models.SET_DEFAULT, default="specialisation"
     )
 
-    def str(self):
+    def __str__(self):
         return f"{self.pk} - user_id: {self.user}"
 
     class Meta:
@@ -77,7 +77,7 @@ class Group(models.Model, DataTimeMixin):
     name_of_the_group = models.CharField(max_length=100, blank=True)
     student = models.ManyToManyField(Student, blank=True)
     teacher = models.ForeignKey(
-        Teacher, on_delete=models.SET_NULL, null=True, blank=True
+        "mentor_ship.Teacher", on_delete=models.SET_NULL, null=True, blank=True
     )
     course = models.ForeignKey(
         "testing_sistem.Course", on_delete=models.SET_NULL, null=True, blank=True

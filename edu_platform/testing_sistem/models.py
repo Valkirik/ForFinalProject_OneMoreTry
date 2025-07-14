@@ -1,6 +1,10 @@
 from django.db import models
-from mentor_ship.models import DataTimeMixin, Teacher, Specialisation
+from mentor_ship.models import DataTimeMixin, Specialisation, Teacher
 
+
+class Image(models.Model):
+    image = models.ImageField(null=True, blank=True)
+    
 
 class Course(models.Model, DataTimeMixin):
     title = models.CharField(max_length=100)
@@ -45,3 +49,44 @@ class Article(models.Model, DataTimeMixin):
     class Meta:
         verbose_name = "article"
         verbose_name_plural = "articles"
+
+
+class Test(models.Model, DataTimeMixin):
+    title = models.CharField(max_length=100)
+    description = models.TimeField()
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+    is_open = models.BooleanField(default=False)
+
+    def __str__(self):
+        def __str__(self):
+            return f"{self.pk} - {self.title}"
+
+    class Meta:
+        verbose_name = "test"
+        verbose_name_plural = "tests"
+
+
+class Questions(models.Model, DataTimeMixin):
+    content = models.CharField(max_length=100)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.pk} - {self.content}"
+
+    class Meta:
+        verbose_name = "question"
+        verbose_name_plural = "questions"
+
+
+class Answer(models.Model, DataTimeMixin):
+    text = models.TextField()
+    is_correct = models.BooleanField(default=False)
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.pk} - {self.text}"
+
+    class Meta:
+        verbose_name = "answer"
+        verbose_name_plural = "answers"
