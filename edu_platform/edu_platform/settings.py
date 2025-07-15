@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "mentor_ship",
     "testing_sistem",
+    "resta_framework",
 ]
 
 MIDDLEWARE = [
