@@ -4,7 +4,7 @@ from mentor_ship.models import DataTimeMixin, Specialisation, Teacher
 
 class Image(models.Model):
     image = models.ImageField(null=True, blank=True)
-    
+
 
 class Course(models.Model, DataTimeMixin):
     title = models.CharField(max_length=100)
