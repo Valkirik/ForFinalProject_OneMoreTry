@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from .endpoints import (AllGroupStudentListAPIview, GroupViewSet,
                         SpecialisationViewSet, StudentsGroupListAPIview,
-                        StudentViewSet, TeacherViewSet, UserViewSet)
+                        StudentViewSet, TeacherViewSet, UserViewSet, TeacherSpecialisationAPIview)
 
 router = routers.SimpleRouter()
 router.register("user_viewset", UserViewSet)
@@ -16,4 +16,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("group_student/", AllGroupStudentListAPIview.as_view()),
     re_path("group/(?P<id>.+)/student_list", StudentsGroupListAPIview.as_view()),
+    re_path("specialisation/(?P<id>.+)/teacher_list", TeacherSpecialisationAPIview.as_view()),
 ]

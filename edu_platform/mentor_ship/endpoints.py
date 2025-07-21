@@ -64,3 +64,13 @@ class StudentsGroupListAPIview(ListAPIView):
         group_id = self.kwargs["id"]
         student = Student.objects.filter(group__in=group_id)
         return student
+
+
+class TeacherSpecialisationAPIview(ListAPIView):
+    serializer_class = TeacherSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        specialisation_id = self.kwargs['id']
+        teacher = Teacher.objects.filter(specialisation__in=specialisation_id)
+        return teacher
