@@ -71,6 +71,6 @@ class TeacherSpecialisationAPIview(ListAPIView):
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-        specialisation_id = self.kwargs['id']
+        specialisation_id = self.kwargs["id"]
         teacher = Teacher.objects.filter(specialisation__in=specialisation_id)
         return teacher
